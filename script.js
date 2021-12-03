@@ -1,8 +1,8 @@
 let value = '';
 let firstValue = '';
 let operatorChoosed = false;
-let choosedOperator;
-
+let choosedOperator = '';
+let t = 0;
 const display = document.querySelector('.display');
 
 document.querySelector('#clear').addEventListener('click', () => clearAll())
@@ -10,30 +10,43 @@ document.querySelector('#clear').addEventListener('click', () => clearAll())
 document.querySelectorAll(".chiffre").forEach(chiffre =>
     chiffre.addEventListener('click', () => { writeDisplay(chiffre.innerText) }));
 
-document.querySelectorAll('.operator').forEach(operatorSelected =>
-    operatorSelected.addEventListener('click', () => { chooseOperator(operatorSelected) }));
+
+    function writeDisplay(number) {
+        if (value == '') {
+            display.innerText = '';
+        }
+        value += number;
+        display.innerText += number;
+    
+    }
+
+
+    document.querySelectorAll('.operator').forEach(operatorSelected =>
+        operatorSelected.addEventListener('click', () => { chooseOperator(operatorSelected) }));
+    
 
 function chooseOperator(operator) {
-
-    console.log("1---", choosedOperator, firstValue, value);
-    if (operator.id == 'equal' && operatorChoosed) {
+    if (choosedOperator == ''){
+        choosedOperator = operator.id
+    }
+    if (operator.id == 'equal' && value != '') {
         operate(choosedOperator, firstValue, value);
-        operatorChoosed = false;
         firstValue = '';
-    } else if (operator.id != 'equal' && operatorChoosed && value != '' && firstValue != '') {
-
+    } else if (choosedOperator != 'equal' && operatorChoosed && value != '' && firstValue != '') {
+        
        operate(choosedOperator, firstValue, value);
-
+        
     } else {
         operatorChoosed = true;
-        choosedOperator = operator.id;
+        
         if (firstValue ==''){
             firstValue = value;
         }
-        console.log(choosedOperator);
         value = '';
     }
 }
+
+
 
 function operate(oper, a, b) {
     let result;
@@ -63,16 +76,6 @@ function operate(oper, a, b) {
     operatorChoosed = false;
 
 }
-
-function writeDisplay(number) {
-    if (operatorChoosed && value == '') {
-        display.innerText = '';
-    }
-    value += number;
-    display.innerText += number;
-
-}
-
 
 
 function add(a, b) {
