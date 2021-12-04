@@ -17,6 +17,10 @@ document.querySelectorAll(".chiffre").forEach(chiffre =>
     chiffre.addEventListener('click', () => { writeDisplay(chiffre.innerText) }));
 
 function writeDisplay(number) {
+    if(display.innerText.length == 12) {
+        alert('Vous ne pouvez pas saisir plus de 12 chiffres.');
+        return;
+    }
     if (newValue) {
         display.innerText = '';
     }
@@ -70,8 +74,10 @@ function operate(oper, a, b) {
         default:
             break;
     }
-    display.innerText = result;
-    firstValue = result;
+    let roundedResult = Number.parseFloat(+result).toPrecision(12);
+    if(+roundedResult == +Math.floor(roundedResult)) roundedResult = Math.floor(roundedResult);
+    display.innerText = roundedResult;
+    firstValue = roundedResult;
     newValue = true;
 
 }
