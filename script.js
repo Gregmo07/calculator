@@ -29,10 +29,16 @@ function writeDisplay(number) {
 }
 
 
+
 document.querySelectorAll('.operator').forEach(operatorSelected =>
     operatorSelected.addEventListener('click', () => { chooseOperator(operatorSelected) }));
 
 function chooseOperator(operator) {
+
+    if (operator.id == 'factorial'){
+        display.innerText = factorial(display.innerText);
+        return;
+    }   
 
     if (display.innerText != '') {
         if (firstValue == '') {
@@ -66,6 +72,10 @@ function operate(oper, a, b) {
             result = multiply(a, b);
             break;
         case 'divide':
+            if (b == 0){
+                divideByZero();
+                return;
+            }
             result = divide(a, b);
             break;
         case 'modulo':
@@ -82,7 +92,32 @@ function operate(oper, a, b) {
 
 }
 
-
+function divideByZero() {
+    display.innerText = '';
+    display.innerHTML = '<div class="scrolling">Attempt to divide by zero</div>';
+    setTimeout(() => {display.innerHTML = '<div class="scrolling">Attempt to divide by 0</div>'}, 4500);
+    setTimeout(() => {display.innerHTML = '<div class="scrolling">Attempt t0 divide by 0</div>'}, 9500);
+    setTimeout(() => {display.innerHTML = '<div class="scrolling">Attempt t0 divide by 0</div>';
+    document.querySelectorAll(".chiffre").forEach(chiffre =>
+        chiffre.classList.add('rotate'));
+    }, 10500);
+    setTimeout(() => {
+    document.querySelectorAll(".calc").forEach(chiffre =>
+        chiffre.classList.add('rotate'));
+    }, 11500);
+    setTimeout(() => {
+        document.querySelectorAll(".calc").forEach(chiffre =>
+            chiffre.classList.remove('rotate'));
+            document.querySelectorAll(".chiffre").forEach(chiffre =>
+                chiffre.classList.remove('rotate'));
+        }, 16500);
+}
+function factorial(n){
+        if (n === 0) {
+        return 1;
+        }
+        return n * factorial (n-1);
+    }
 function add(a, b) {
     return +a + +b;
 }
